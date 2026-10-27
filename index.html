@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Dinamis - Tunggur</title>
+  <title>Beranda Dinamis - Tunggur</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <style>
@@ -18,10 +18,9 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#"><i class="bi bi-grid-fill me-2"></i>Portal Beranda</a>
+      <a class="navbar-brand fw-bold" href="#"><i class="bi bi-grid-fill me-2"></i>Portal Desa Tunggur</a>
       <div class="d-flex align-items-center gap-2">
         <span id="userStatus" class="badge bg-light text-primary">Mode Tamu</span>
-        <!-- Tombol Login dengan Trigger Bootstrap Modal yang Aman -->
         <button id="btnLoginModal" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
           <i class="bi bi-box-arrow-in-right me-1"></i>Login Admin
         </button>
@@ -33,12 +32,12 @@
   </nav>
 
   <div class="container my-4">
-    <!-- Admin Controls -->
+    <!-- Panel Admin -->
     <div id="adminPanel" class="card mb-4 border-0 shadow-sm d-none">
       <div class="card-body bg-white rounded-3 d-flex justify-content-between align-items-center">
         <div>
           <h5 class="card-title mb-1 text-primary"><i class="bi bi-shield-lock-fill me-2"></i>Panel Kontrol Admin</h5>
-          <p class="text-muted small mb-0">Tambah dan kelola menu dinamis yang tersimpan di Google Sheets.</p>
+          <p class="text-muted small mb-0">Kelola menu dinamis yang terhubung ke Google Sheets.</p>
         </div>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMenuModal">
           <i class="bi bi-plus-lg me-1"></i>Tambah Menu
@@ -46,7 +45,7 @@
       </div>
     </div>
 
-    <!-- Filter & Grid -->
+    <!-- Filter Pencarian -->
     <div class="row align-items-center mb-4 g-2">
       <div class="col-md-6">
         <div class="input-group">
@@ -54,13 +53,16 @@
           <input type="text" id="searchInput" class="form-control" placeholder="Cari menu..." onkeyup="renderMenu()">
         </div>
       </div>
+      <div class="col-md-6 text-md-end">
+        <span class="text-muted small"><i class="bi bi-cloud-check me-1"></i>Database Google Sheets</span>
+      </div>
     </div>
 
-    <!-- Menu Grid Container -->
+    <!-- Container Grid Menu -->
     <div id="menuContainer" class="row g-3">
       <div class="text-center my-5">
         <div class="spinner-border text-primary" role="status"></div>
-        <p class="mt-2 text-muted">Memuat data...</p>
+        <p class="mt-2 text-muted">Menghubungkan ke Google Sheets...</p>
       </div>
     </div>
   </div>
@@ -74,16 +76,17 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div id="loginAlert" class="alert alert-danger d-none p-2 small text-center"></div>
           <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="mb-3">
               <label class="form-label">Username</label>
-              <input type="text" id="loginUser" class="form-control" required placeholder="admin">
+              <input type="text" id="loginUser" class="form-control" required placeholder="Masukkan username">
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input type="password" id="loginPass" class="form-control" required placeholder="admin123">
+              <input type="password" id="loginPass" class="form-control" required placeholder="Masukkan password">
             </div>
-            <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Verifikasi ke Spreadsheet</button>
           </form>
         </div>
       </div>
@@ -102,11 +105,11 @@
           <form id="addMenuForm" onsubmit="handleAddMenu(event)">
             <div class="mb-3">
               <label class="form-label">Judul Menu</label>
-              <input type="text" id="menuTitle" class="form-control" required placeholder="Contoh: Laporan Bulanan">
+              <input type="text" id="menuTitle" class="form-control" required placeholder="Contoh: Aplikasi Absensi">
             </div>
             <div class="mb-3">
               <label class="form-label">Deskripsi Singkat</label>
-              <input type="text" id="menuDesc" class="form-control" required placeholder="Penjelasan singkat aplikasi">
+              <input type="text" id="menuDesc" class="form-control" required placeholder="Penjelasan singkat">
             </div>
             <div class="mb-3">
               <label class="form-label">Link (URL)</label>
@@ -116,13 +119,14 @@
               <div class="col-md-6 mb-3">
                 <label class="form-label">Ikon (Bootstrap Icon)</label>
                 <input type="text" id="menuIcon" class="form-control" value="bi-link-45deg">
+                <small class="text-muted">Contoh: bi-folder, bi-star, bi-gear</small>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label">Lebar Grid</label>
                 <select id="menuCols" class="form-select">
-                  <option value="3">4 Kolom (col-md-3)</option>
-                  <option value="4" selected>3 Kolom (col-md-4)</option>
-                  <option value="6">2 Kolom (col-md-6)</option>
+                  <option value="3">4 Kolom / Baris (col-md-3)</option>
+                  <option value="4" selected>3 Kolom / Baris (col-md-4)</option>
+                  <option value="6">2 Kolom / Baris (col-md-6)</option>
                   <option value="12">1 Kolom Penuh (col-md-12)</option>
                 </select>
               </div>
@@ -134,11 +138,10 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS Bundle (Wajib agar Modal berfungsi) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Masukkan URL Google Apps Script Anda di sini
-    const API_URL = "https://script.google.com/macros/s/AKfycbwZwGBZLENlQOIR0JEFh8Vg1r2NuLun3WvAbcVrBVmkg9uXGFaDzsrQ2teTfaO3TDujlA/exec";
+    // TEMPELKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    const API_URL = "https://script.google.com/macros/s/AKfycby_uQHTapK3jvLa74QtWxP_0SxXEAj5MQ6O4lvNl8ZH-s0-htWJosMrWZxCbtGbzqDnJw/exec";
 
     let menuList = [];
     let isAdmin = false;
@@ -171,12 +174,15 @@
     }
 
     async function fetchMenu() {
-      if (API_URL.includes("PASTE_URL")) {
-        // Fallback dummy jika URL belum diisi agar halaman tetap bisa diuji
-        menuList = [
-          { id: 1, title: "Contoh Menu 1", description: "Silakan atur URL Spreadsheet Anda.", url: "#", icon: "bi-folder", cols: 4 }
-        ];
-        renderMenu();
+      const container = document.getElementById("menuContainer");
+      
+      if (!API_URL || API_URL.includes("https://script.google.com/macros/s/AKfycby_uQHTapK3jvLa74QtWxP_0SxXEAj5MQ6O4lvNl8ZH-s0-htWJosMrWZxCbtGbzqDnJw/exec")) {
+        container.innerHTML = `
+          <div class="alert alert-warning text-center">
+            <i class="bi bi-exclamation-triangle-fill fs-3 d-block mb-2"></i>
+            <strong>API_URL Belum Diatur!</strong><br>
+            Silakan masukkan Web App URL dari Google Apps Script ke variabel <code>API_URL</code> di file HTML ini.
+          </div>`;
         return;
       }
 
@@ -185,9 +191,12 @@
         menuList = await response.json();
         renderMenu();
       } catch (err) {
-        document.getElementById("menuContainer").innerHTML = `
-          <div class="alert alert-warning text-center">Gagal memuat dari Google Sheets. Menampilkan data lokal.</div>
-        `;
+        container.innerHTML = `
+          <div class="alert alert-danger text-center">
+            <i class="bi bi-x-circle-fill fs-3 d-block mb-2"></i>
+            <strong>Gagal Terhubung ke Google Sheets</strong><br>
+            Periksa kembali URL Apps Script dan pastikan hak akses deployment diset ke "Anyone".
+          </div>`;
       }
     }
 
@@ -196,12 +205,12 @@
       const query = document.getElementById("searchInput").value.toLowerCase();
       
       const filtered = menuList.filter(m => 
-        (m.title && m.title.toLowerCase().includes(query)) || 
-        (m.description && m.description.toLowerCase().includes(query))
+        (m.title && m.title.toString().toLowerCase().includes(query)) || 
+        (m.description && m.description.toString().toLowerCase().includes(query))
       );
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center my-5 text-muted"><p>Tidak ada menu yang ditemukan.</p></div>`;
+        container.innerHTML = `<div class="text-center my-5 text-muted"><i class="bi bi-inbox fs-1 d-block mb-2"></i><p>Tidak ada data menu di Spreadsheet.</p></div>`;
         return;
       }
 
@@ -212,7 +221,7 @@
               <div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <span class="icon-box text-primary"><i class="bi ${item.icon || 'bi-link-45deg'}"></i></span>
-                  ${isAdmin ? `<button class="btn btn-outline-danger btn-sm border-0" onclick="deleteMenu('${item.id}')"><i class="bi bi-trash"></i></button>` : ''}
+                  ${isAdmin ? `<button class="btn btn-outline-danger btn-sm border-0" title="Hapus Menu" onclick="deleteMenu('${item.id}')"><i class="bi bi-trash"></i></button>` : ''}
                 </div>
                 <h5 class="card-title fw-bold text-dark">${item.title}</h5>
                 <p class="card-text text-muted small">${item.description}</p>
@@ -230,40 +239,48 @@
       e.preventDefault();
       const user = document.getElementById("loginUser").value;
       const pass = document.getElementById("loginPass").value;
+      const btn = document.getElementById("btnLoginSubmit");
+      const alertBox = document.getElementById("loginAlert");
 
-      // Bypass darurat jika menggunakan user/pass default admin/admin123 sebelum Google Sheets siap
-      if (user === "admin" && user === "admin" && pass === "admin123" && API_URL.includes("PASTE_URL")) {
-        sessionStorage.setItem("isAdmin", "true");
-        checkLoginSession();
-        bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
-        renderMenu();
+      alertBox.classList.add("d-none");
+
+      if (!API_URL || API_URL.includes("https://script.google.com/macros/s/AKfycby_uQHTapK3jvLa74QtWxP_0SxXEAj5MQ6O4lvNl8ZH-s0-htWJosMrWZxCbtGbzqDnJw/exec")) {
+        alertBox.innerText = "Isi variabel API_URL terlebih dahulu!";
+        alertBox.classList.remove("d-none");
         return;
       }
 
-      const btn = document.getElementById("btnLoginSubmit");
       btn.disabled = true;
-      btn.innerText = "Memeriksa...";
+      btn.innerText = "Memeriksa Spreadsheet...";
 
       try {
         const response = await fetch(API_URL, {
           method: "POST",
           body: JSON.stringify({ action: "login", username: user, password: pass })
         });
+        
         const res = await response.json();
 
         if (res.success) {
           sessionStorage.setItem("isAdmin", "true");
           checkLoginSession();
-          bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
+          
+          const loginModalEl = document.getElementById("loginModal");
+          const modalInstance = bootstrap.Modal.getInstance(loginModalEl);
+          if (modalInstance) modalInstance.hide();
+
+          document.getElementById("loginForm").reset();
           renderMenu();
         } else {
-          alert(res.message);
+          alertBox.innerText = res.message || "Username atau password salah!";
+          alertBox.classList.remove("d-none");
         }
       } catch (err) {
-        alert("Terjadi kesalahan koneksi ke server Apps Script.");
+        alertBox.innerText = "Gagal terhubung ke Google Apps Script.";
+        alertBox.classList.remove("d-none");
       } finally {
         btn.disabled = false;
-        btn.innerText = "Login";
+        btn.innerText = "Verifikasi ke Spreadsheet";
       }
     }
 
@@ -271,6 +288,56 @@
       sessionStorage.removeItem("isAdmin");
       checkLoginSession();
       renderMenu();
+    }
+
+    async function handleAddMenu(e) {
+      e.preventDefault();
+      const btn = document.getElementById("btnAddSubmit");
+      btn.disabled = true;
+      btn.innerText = "Menyimpan ke Sheet...";
+
+      const newMenu = {
+        action: "addMenu",
+        title: document.getElementById("menuTitle").value,
+        description: document.getElementById("menuDesc").value,
+        url: document.getElementById("menuUrl").value,
+        icon: document.getElementById("menuIcon").value,
+        cols: document.getElementById("menuCols").value
+      };
+
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(newMenu)
+        });
+
+        document.getElementById("addMenuForm").reset();
+        
+        const addModalEl = document.getElementById("addMenuModal");
+        const modalInstance = bootstrap.Modal.getInstance(addModalEl);
+        if (modalInstance) modalInstance.hide();
+
+        await fetchMenu();
+      } catch (err) {
+        alert("Gagal menyimpan menu ke Spreadsheet.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Simpan ke Google Sheets";
+      }
+    }
+
+    async function deleteMenu(id) {
+      if (!confirm("Apakah Anda yakin ingin menghapus menu ini dari Google Sheets?")) return;
+
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "deleteMenu", id: id })
+        });
+        await fetchMenu();
+      } catch (err) {
+        alert("Gagal menghapus menu.");
+      }
     }
   </script>
 </body>
