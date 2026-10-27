@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beranda Dinamis - Tunggur</title>
+  <title>Beranda Dinamis - Google Sheets DB</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <style>
@@ -18,7 +18,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#"><i class="bi bi-grid-fill me-2"></i>Portal Desa Tunggur</a>
+      <a class="navbar-brand fw-bold" href="#"><i class="bi bi-grid-fill me-2"></i>Portal Beranda</a>
       <div class="d-flex align-items-center gap-2">
         <span id="userStatus" class="badge bg-light text-primary">Mode Tamu</span>
         <button id="btnLoginModal" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
@@ -176,7 +176,7 @@
     async function fetchMenu() {
       const container = document.getElementById("menuContainer");
       
-      if (!API_URL || API_URL.includes("https://script.google.com/macros/s/AKfycby_uQHTapK3jvLa74QtWxP_0SxXEAj5MQ6O4lvNl8ZH-s0-htWJosMrWZxCbtGbzqDnJw/exec")) {
+      if (!API_URL || API_URL.includes("URL_WEB_APP_APPS_SCRIPT_ANDA_DI_SINI")) {
         container.innerHTML = `
           <div class="alert alert-warning text-center">
             <i class="bi bi-exclamation-triangle-fill fs-3 d-block mb-2"></i>
@@ -244,7 +244,7 @@
 
       alertBox.classList.add("d-none");
 
-      if (!API_URL || API_URL.includes("https://script.google.com/macros/s/AKfycby_uQHTapK3jvLa74QtWxP_0SxXEAj5MQ6O4lvNl8ZH-s0-htWJosMrWZxCbtGbzqDnJw/exec")) {
+      if (!API_URL || API_URL.includes("URL_WEB_APP_APPS_SCRIPT_ANDA_DI_SINI")) {
         alertBox.innerText = "Isi variabel API_URL terlebih dahulu!";
         alertBox.classList.remove("d-none");
         return;
