@@ -1,705 +1,306 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tunggur Beranda Dinamis</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Hero Header */
-        .hero-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 2.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Card Menu Styling */
-        .menu-card {
-            border: none;
-            border-radius: 12px;
-            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
-            background: #ffffff;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-
-        .icon-wrapper {
-            width: 54px;
-            height: 54px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* List View Customization */
-        .list-view-item .menu-card {
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .list-view-item .card-body {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 1.25rem;
-        }
-
-        .list-view-item .icon-wrapper {
-            margin-bottom: 0;
-            margin-right: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .list-view-item .card-content {
-            flex-grow: 1;
-        }
-
-        .list-view-item .card-actions {
-            margin-top: 0 !important;
-            margin-left: 1rem;
-        }
-
-        /* Custom Badge Colors */
-        .bg-theme-blue { background-color: #e0f2fe; color: #0284c7; }
-        .bg-theme-green { background-color: #dcfce7; color: #16a34a; }
-        .bg-theme-purple { background-color: #f3e8ff; color: #9333ea; }
-        .bg-theme-orange { background-color: #ffedd5; color: #ea580c; }
-        .bg-theme-red { background-color: #ffe4e6; color: #e11d48; }
-
-        .btn-check:checked + .btn-outline-primary {
-            background-color: #0284c7;
-            border-color: #0284c7;
-        }
-
-        /* Quick Action Admin Buttons */
-        .admin-actions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            z-index: 5;
-        }
-
-        .menu-card:hover .admin-actions {
-            opacity: 1;
-        }
-
-        .toast-container {
-            z-index: 1090;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Dinamis - Tunggur</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { background-color: #f4f6f9; }
+    .card-menu { transition: all 0.3s ease; border-radius: 12px; }
+    .card-menu:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .icon-box { font-size: 2.2rem; }
+  </style>
 </head>
 <body>
 
-    <!-- Navbar Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
-                <i class="bi bi-grid-3x3-gap-fill text-primary me-2 fs-4"></i>
-                Portal Desa Tunggur
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#"><i class="bi bi-grid-fill me-2"></i>Portal Beranda</a>
+      <div class="d-flex align-items-center gap-2">
+        <span id="userStatus" class="badge bg-light text-primary">Mode Tamu</span>
+        <button id="btnLoginModal" class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+          <i class="bi bi-box-arrow-in-right me-1"></i>Login Admin
+        </button>
+        <button id="btnLogout" class="btn btn-danger btn-sm d-none" onclick="logout()">
+          <i class="bi bi-box-arrow-right me-1"></i>Logout
+        </button>
+      </div>
+    </div>
+  </nav>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Status Badge Login -->
-                <div class="ms-auto d-flex align-items-center gap-2 mt-3 mt-lg-0">
-                    <span id="userStatusBadge" class="badge bg-secondary px-3 py-2 rounded-pill d-flex align-items-center gap-1">
-                        <i class="bi bi-person-fill"></i> Mode Tamu
-                    </span>
-
-                    <!-- Admin Buttons -->
-                    <button id="btnOpenAddModal" class="btn btn-success btn-sm rounded-pill px-3 d-none" data-bs-toggle="modal" data-bs-target="#menuModal">
-                        <i class="bi bi-plus-lg me-1"></i> Tambah Menu
-                    </button>
-
-                    <button id="btnLogin" class="btn btn-outline-light btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Login Admin
-                    </button>
-
-                    <button id="btnLogout" class="btn btn-outline-danger btn-sm rounded-pill px-3 d-none">
-                        <i class="bi bi-box-arrow-right me-1"></i> Logout
-                    </button>
-                </div>
-            </div>
+  <div class="container my-4">
+    <!-- Admin Controls -->
+    <div id="adminPanel" class="card mb-4 border-0 shadow-sm d-none">
+      <div class="card-body bg-white rounded-3 d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="card-title mb-1 text-primary"><i class="bi bi-shield-lock-fill me-2"></i>Panel Kontrol Admin</h5>
+          <p class="text-muted small mb-0">Tambah dan kelola menu dinamis yang tersimpan di Google Sheets.</p>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <div class="hero-banner">
-        <div class="container text-center text-md-start">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1 class="fw-bold mb-2">Selamat Datang di Portal Layanan</h1>
-                    <p class="text-white-50 mb-0">Akses seluruh sistem internal, portal berita, dan cloud drive dalam satu pintu.</p>
-                </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <button class="btn btn-outline-light btn-sm rounded-pill" id="btnResetData">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Menu Default
-                    </button>
-                </div>
-            </div>
-        </div>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMenuModal">
+          <i class="bi bi-plus-lg me-1"></i>Tambah Menu
+        </button>
+      </div>
     </div>
 
-    <!-- Main Content Container -->
-    <main class="container my-4 flex-grow-1">
-
-        <!-- Controls Toolbar: Search, Filter, & Grid Switcher -->
-        <div class="card border-0 shadow-sm rounded-3 mb-4">
-            <div class="card-body p-3">
-                <div class="row g-3 align-items-center">
-                    
-                    <!-- Search Input -->
-                    <div class="col-12 col-md-5 col-lg-4">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" id="searchInput" class="form-control bg-light border-start-0" placeholder="Cari menu atau deskripsi...">
-                        </div>
-                    </div>
-
-                    <!-- Filter Kategori -->
-                    <div class="col-12 col-md-4 col-lg-3">
-                        <select id="categoryFilter" class="form-select bg-light">
-                            <option value="ALL">Semua Kategori</option>
-                            <!-- Options populated dynamically -->
-                        </select>
-                    </div>
-
-                    <!-- Layout Switcher (Grid Options) -->
-                    <div class="col-12 col-md-3 col-lg-5 text-md-end">
-                        <div class="btn-group w-100 w-md-auto" role="group" aria-label="Pengaturan Grid View">
-                            <input type="radio" class="btn-check" name="gridView" id="grid2" value="col-md-6" autocomplete="off">
-                            <label class="btn btn-outline-secondary btn-sm" for="grid2" title="2 Kolom"><i class="bi bi-pause"></i> 2 Kolom</label>
-
-                            <input type="radio" class="btn-check" name="gridView" id="grid3" value="col-md-6 col-lg-4" autocomplete="off" checked>
-                            <label class="btn btn-outline-secondary btn-sm" for="grid3" title="3 Kolom"><i class="bi bi-grid-3x2"></i> 3 Kolom</label>
-
-                            <input type="radio" class="btn-check" name="gridView" id="grid4" value="col-md-6 col-lg-3" autocomplete="off">
-                            <label class="btn btn-outline-secondary btn-sm" for="grid4" title="4 Kolom"><i class="bi bi-grid-3x3"></i> 4 Kolom</label>
-
-                            <input type="radio" class="btn-check" name="gridView" id="gridList" value="col-12 list-view-item" autocomplete="off">
-                            <label class="btn btn-outline-secondary btn-sm" for="gridList" title="Tampilan List"><i class="bi bi-list-task"></i> List</label>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+    <!-- Filter & Grid Info -->
+    <div class="row align-items-center mb-4 g-2">
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+          <input type="text" id="searchInput" class="form-control" placeholder="Cari menu..." onkeyup="renderMenu()">
         </div>
-
-        <!-- Menu Grid Container -->
-        <div id="menuContainer" class="row g-3">
-            <!-- Dynamic Menu Cards Will Be Inserted Here -->
-        </div>
-
-        <!-- Empty State View -->
-        <div id="emptyState" class="text-center py-5 d-none">
-            <i class="bi bi-search text-muted display-1"></i>
-            <h4 class="mt-3 fw-semibold">Menu Tidak Ditemukan</h4>
-            <p class="text-muted">Coba gunakan kata kunci pencarian atau kategori yang berbeda.</p>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
-        <div class="container">
-            <span>&copy; 2026 Portal Beranda Dinamis — Dibuat dengan Bootstrap 5</span>
-        </div>
-    </footer>
-
-    <!-- MODAL 1: Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title fw-bold" id="loginModalLabel"><i class="bi bi-shield-lock me-2"></i>Login Admin</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form id="loginForm">
-                        <div class="mb-3">
-                            <label for="username" class="form-label small fw-semibold">Username</label>
-                            <input type="text" id="username" class="form-control" placeholder="Default: admin" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label small fw-semibold">Password</label>
-                            <input type="password" id="password" class="form-control" placeholder="Default: admin123" required>
-                        </div>
-                        <div id="loginAlert" class="alert alert-danger py-2 small d-none" role="alert">
-                            Username atau password salah!
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 rounded-pill mt-2 fw-semibold">Masuk</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <span class="text-muted small">Grid disesuaikan otomatis per-kartu.</span>
+      </div>
     </div>
 
-    <!-- MODAL 2: Add/Edit Menu Modal -->
-    <div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title fw-bold" id="menuModalLabel">Tambah Menu Baru</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form id="menuForm">
-                        <input type="hidden" id="menuId">
-
-                        <div class="mb-3">
-                            <label for="menuTitle" class="form-label small fw-semibold">Judul Menu *</label>
-                            <input type="text" id="menuTitle" class="form-control" placeholder="Contoh: Cloud Drive" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="menuDesc" class="form-label small fw-semibold">Deskripsi Short *</label>
-                            <textarea id="menuDesc" class="form-control" rows="2" placeholder="Penjelasan singkat layanan..." required></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="menuUrl" class="form-label small fw-semibold">URL / Link *</label>
-                            <input type="url" id="menuUrl" class="form-control" placeholder="https://example.com" required>
-                        </div>
-
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-6">
-                                <label for="menuIcon" class="form-label small fw-semibold">Ikon Bootstrap</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i id="iconPreview" class="bi bi-app-indicator"></i></span>
-                                    <input type="text" id="menuIcon" class="form-control" placeholder="bi-cloud-fill" value="bi-link-45deg">
-                                </div>
-                                <div class="form-text small">Gunakan class <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a>.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="menuCategory" class="form-label small fw-semibold">Kategori / Tag *</label>
-                                <input type="text" id="menuCategory" class="form-control" placeholder="Contoh: Produktivitas" required list="categoryList">
-                                <datalist id="categoryList">
-                                    <option value="Sistem Utama">
-                                    <option value="Produktivitas">
-                                    <option value="Informasi">
-                                    <option value="Utilitas">
-                                </datalist>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold">Warna Tema / Badge</label>
-                            <div class="d-flex gap-2">
-                                <input type="radio" class="btn-check" name="themeColor" id="themeBlue" value="bg-theme-blue" checked>
-                                <label class="btn btn-sm btn-outline-primary rounded-circle p-2" for="themeBlue"><i class="bi bi-circle-fill text-primary"></i></label>
-
-                                <input type="radio" class="btn-check" name="themeColor" id="themeGreen" value="bg-theme-green">
-                                <label class="btn btn-sm btn-outline-success rounded-circle p-2" for="themeGreen"><i class="bi bi-circle-fill text-success"></i></label>
-
-                                <input type="radio" class="btn-check" name="themeColor" id="themePurple" value="bg-theme-purple">
-                                <label class="btn btn-sm btn-outline-secondary rounded-circle p-2" for="themePurple"><i class="bi bi-circle-fill text-purple" style="color: #9333ea;"></i></label>
-
-                                <input type="radio" class="btn-check" name="themeColor" id="themeOrange" value="bg-theme-orange">
-                                <label class="btn btn-sm btn-outline-warning rounded-circle p-2" for="themeOrange"><i class="bi bi-circle-fill text-warning"></i></label>
-
-                                <input type="radio" class="btn-check" name="themeColor" id="themeRed" value="bg-theme-red">
-                                <label class="btn btn-sm btn-outline-danger rounded-circle p-2" for="themeRed"><i class="bi bi-circle-fill text-danger"></i></label>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer px-0 pb-0 pt-3 border-top">
-                            <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">Simpan Menu</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <!-- Menu Grid Container -->
+    <div id="menuContainer" class="row g-3">
+      <div class="text-center my-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Memuat data dari Google Sheets...</p>
+      </div>
     </div>
+  </div>
 
-    <!-- Toast Notification Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="liveToast" class="toast align-items-center text-white bg-dark border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body d-flex align-items-center gap-2">
-                    <i id="toastIcon" class="bi bi-info-circle-fill fs-5"></i>
-                    <span id="toastMessage">Pesan Notifikasi</span>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+  <!-- Modal Login -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-person-lock me-2"></i>Login Admin</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
+        <div class="modal-body">
+          <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input type="text" id="loginUser" class="form-control" required placeholder="admin">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" id="loginPass" class="form-control" required placeholder="admin123">
+            </div>
+            <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Login</button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Modal Tambah Menu -->
+  <div class="modal fade" id="addMenuModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Tambah Menu Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addMenuForm" onsubmit="handleAddMenu(event)">
+            <div class="mb-3">
+              <label class="form-label">Judul Menu</label>
+              <input type="text" id="menuTitle" class="form-control" required placeholder="Contoh: Laporan Bulanan">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Deskripsi Singkat</label>
+              <input type="text" id="menuDesc" class="form-control" required placeholder="Penjelasan singkat aplikasi">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Link (URL)</label>
+              <input type="url" id="menuUrl" class="form-control" required placeholder="https://...">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Ikon (Bootstrap Icon)</label>
+                <input type="text" id="menuIcon" class="form-control" placeholder="bi-folder" value="bi-link-45deg">
+                <small class="text-muted">Nama class dari <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></small>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Lebar Grid (Bootstrap Cols)</label>
+                <select id="menuCols" class="form-select">
+                  <option value="3">4 Kolom / Baris (col-md-3)</option>
+                  <option value="4" selected>3 Kolom / Baris (col-md-4)</option>
+                  <option value="6">2 Kolom / Baris (col-md-6)</option>
+                  <option value="12">1 Kolom Penuh (col-md-12)</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" id="btnAddSubmit" class="btn btn-primary w-100">Simpan ke Google Sheets</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        /**
-         * INITIAL SAMPLE DATA
-         */
-        const defaultMenus = [
-            {
-                id: '1',
-                title: 'Portal Berita & Pengumuman',
-                desc: 'Informasi dan berita terkini mengenai kebijakan perusahaan dan kegiatan harian.',
-                url: 'https://news.google.com',
-                icon: 'bi-newspaper',
-                category: 'Informasi',
-                theme: 'bg-theme-blue'
-            },
-            {
-                id: '2',
-                title: 'Sistem Laporan Keuangan',
-                desc: 'Aplikasi internal rekapitulasi anggaran, pengeluaran, dan klaim reimbursement.',
-                url: 'https://github.com',
-                icon: 'bi-graph-up-arrow',
-                category: 'Sistem Utama',
-                theme: 'bg-theme-green'
-            },
-            {
-                id: '3',
-                title: 'Cloud Drive Perusahaan',
-                desc: 'Penyimpanan dokumen resmi, template presentasi, dan berkas kolaborasi.',
-                url: 'https://drive.google.com',
-                icon: 'bi-cloud-arrow-up-fill',
-                category: 'Produktivitas',
-                theme: 'bg-theme-purple'
-            },
-            {
-                id: '4',
-                title: 'Helpdesk & Support IT',
-                desc: 'Ajukan tiket bantuan teknis perangkat keras, akses perangkat lunak, dan jaringan.',
-                url: 'https://stackoverflow.com',
-                icon: 'bi-headset',
-                category: 'Utilitas',
-                theme: 'bg-theme-orange'
-            },
-            {
-                id: '5',
-                title: 'Absensi & Presensi Online',
-                desc: 'Catat kehadiran harian, pengajuan cuti, dan izin sakit pegawai.',
-                url: 'https://calendar.google.com',
-                icon: 'bi-person-check-fill',
-                category: 'Sistem Utama',
-                theme: 'bg-theme-red'
-            },
-            {
-                id: '6',
-                title: 'Ruang Rapat Virtual',
-                desc: 'Akses cepat ke link meeting online Zoom dan Google Meet terintegrasi.',
-                url: 'https://meet.google.com',
-                icon: 'bi-camera-video-fill',
-                category: 'Produktivitas',
-                theme: 'bg-theme-blue'
-            }
-        ];
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+  <script>
+    // GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+    const API_URL = "https://script.google.com/macros/s/AKfycbwZwGBZLENlQOIR0JEFh8Vg1r2NuLun3WvAbcVrBVmkg9uXGFaDzsrQ2teTfaO3TDujlA/exec";
 
-        // STATE MANAGEMENT
-        let menus = [];
-        let isAdminLoggedIn = false;
-        let currentGridClass = 'col-md-6 col-lg-4'; // Default 3 kolom
+    let menuList = [];
+    let isAdmin = false;
 
-        // DOM ELEMENTS
-        const menuContainer = document.getElementById('menuContainer');
-        const emptyState = document.getElementById('emptyState');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const loginForm = document.getElementById('loginForm');
-        const menuForm = document.getElementById('menuForm');
-        const menuModal = new bootstrap.Modal(document.getElementById('menuModal'));
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        const liveToast = new bootstrap.Toast(document.getElementById('liveToast'));
+    document.addEventListener("DOMContentLoaded", () => {
+      checkLoginSession();
+      fetchMenu();
+    });
 
-        // INITIALIZATION
-        document.addEventListener('DOMContentLoaded', () => {
-            loadAuthStatus();
-            loadMenuData();
-            setupEventListeners();
-            renderCategoryOptions();
-            renderMenus();
+    function checkLoginSession() {
+      isAdmin = sessionStorage.getItem("isAdmin") === "true";
+      const userStatus = document.getElementById("userStatus");
+      const adminPanel = document.getElementById("adminPanel");
+      const btnLoginModal = document.getElementById("btnLoginModal");
+      const btnLogout = document.getElementById("btnLogout");
+
+      if (isAdmin) {
+        userStatus.className = "badge bg-warning text-dark";
+        userStatus.innerText = "Mode Admin";
+        adminPanel.classList.remove("d-none");
+        btnLoginModal.classList.add("d-none");
+        btnLogout.classList.remove("d-none");
+      } else {
+        userStatus.className = "badge bg-light text-primary";
+        userStatus.innerText = "Mode Tamu";
+        adminPanel.classList.add("d-none");
+        btnLoginModal.classList.remove("d-none");
+        btnLogout.classList.add("d-none");
+      }
+    }
+
+    async function fetchMenu() {
+      try {
+        const response = await fetch(API_URL + "?sheet=Menu");
+        menuList = await response.json();
+        renderMenu();
+      } catch (err) {
+        document.getElementById("menuContainer").innerHTML = `
+          <div class="alert alert-danger text-center">Gagal memuat data dari Google Sheets. Pastikan API_URL benar.</div>
+        `;
+      }
+    }
+
+    function renderMenu() {
+      const container = document.getElementById("menuContainer");
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      
+      const filtered = menuList.filter(m => 
+        (m.title && m.title.toLowerCase().includes(query)) || 
+        (m.description && m.description.toLowerCase().includes(query))
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center my-5 text-muted"><i class="bi bi-inbox fs-1"></i><p>Tidak ada menu yang ditemukan.</p></div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="col-12 col-md-${item.cols || 4}">
+          <div class="card card-menu h-100 border-0 shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-between p-4">
+              <div>
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <span class="icon-box text-primary"><i class="bi ${item.icon || 'bi-link-45deg'}"></i></span>
+                  ${isAdmin ? `<button class="btn btn-outline-danger btn-sm border-0" onclick="deleteMenu('${item.id}')"><i class="bi bi-trash"></i></button>` : ''}
+                </div>
+                <h5 class="card-title fw-bold text-dark">${item.title}</h5>
+                <p class="card-text text-muted small">${item.description}</p>
+              </div>
+              <a href="${item.url}" target="_blank" class="btn btn-outline-primary btn-sm w-100 mt-3 fw-semibold">
+                Buka Link <i class="bi bi-box-arrow-up-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById("loginUser").value;
+      const pass = document.getElementById("loginPass").value;
+      const btn = document.getElementById("btnLoginSubmit");
+
+      btn.disabled = true;
+      btn.innerText = "Memeriksa...";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "login", username: user, password: pass })
         });
+        const res = await response.json();
 
-        // LOCAL STORAGE LOADERS
-        function loadAuthStatus() {
-            isAdminLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
-            updateAuthUI();
+        if (res.success) {
+          sessionStorage.setItem("isAdmin", "true");
+          checkLoginSession();
+          bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
+          renderMenu();
+        } else {
+          alert(res.message);
         }
+      } catch (err) {
+        alert("Terjadi kesalahan saat verifikasi login.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Login";
+      }
+    }
 
-        function loadMenuData() {
-            const savedMenus = localStorage.getItem('customMenus');
-            if (savedMenus) {
-                menus = JSON.parse(savedMenus);
-            } else {
-                menus = [...defaultMenus];
-                saveMenuData();
-            }
-        }
+    function logout() {
+      sessionStorage.removeItem("isAdmin");
+      checkLoginSession();
+      renderMenu();
+    }
 
-        function saveMenuData() {
-            localStorage.setItem('customMenus', JSON.stringify(menus));
-        }
+    async function handleAddMenu(e) {
+      e.preventDefault();
+      const btn = document.getElementById("btnAddSubmit");
+      btn.disabled = true;
+      btn.innerText = "Menyimpan ke Google Sheets...";
 
-        // UI UPDATES FOR AUTH STATUS
-        function updateAuthUI() {
-            const statusBadge = document.getElementById('userStatusBadge');
-            const btnLogin = document.getElementById('btnLogin');
-            const btnLogout = document.getElementById('btnLogout');
-            const btnOpenAddModal = document.getElementById('btnOpenAddModal');
+      const newMenu = {
+        action: "addMenu",
+        title: document.getElementById("menuTitle").value,
+        description: document.getElementById("menuDesc").value,
+        url: document.getElementById("menuUrl").value,
+        icon: document.getElementById("menuIcon").value,
+        cols: document.getElementById("menuCols").value
+      };
 
-            if (isAdminLoggedIn) {
-                statusBadge.className = 'badge bg-success px-3 py-2 rounded-pill d-flex align-items-center gap-1';
-                statusBadge.innerHTML = '<i class="bi bi-shield-check"></i> Mode Admin';
-                btnLogin.classList.add('d-none');
-                btnLogout.classList.remove('d-none');
-                btnOpenAddModal.classList.remove('d-none');
-            } else {
-                statusBadge.className = 'badge bg-secondary px-3 py-2 rounded-pill d-flex align-items-center gap-1';
-                statusBadge.innerHTML = '<i class="bi bi-person-fill"></i> Mode Tamu';
-                btnLogin.classList.remove('d-none');
-                btnLogout.classList.add('d-none');
-                btnOpenAddModal.classList.add('d-none');
-            }
-            renderMenus();
-        }
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(newMenu)
+        });
+        document.getElementById("addMenuForm").reset();
+        bootstrap.Modal.getInstance(document.getElementById("addMenuModal")).hide();
+        await fetchMenu();
+      } catch (err) {
+        alert("Gagal menambahkan menu.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Simpan ke Google Sheets";
+      }
+    }
 
-        // RENDER CATEGORIES TO FILTER
-        function renderCategoryOptions() {
-            const categories = ['ALL', ...new Set(menus.map(m => m.category))];
-            categoryFilter.innerHTML = categories.map(cat => 
-                `<option value="${cat}">${cat === 'ALL' ? 'Semua Kategori' : cat}</option>`
-            ).join('');
-        }
+    async function deleteMenu(id) {
+      if (!confirm("Apakah Anda yakin ingin menghapus menu ini dari Google Sheets?")) return;
 
-        // RENDER MENU CARDS
-        function renderMenus() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const selectedCat = categoryFilter.value;
-
-            // Filter logic
-            const filteredMenus = menus.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || 
-                                     item.desc.toLowerCase().includes(searchTerm);
-                const matchesCat = selectedCat === 'ALL' || item.category === selectedCat;
-                return matchesSearch && matchesCat;
-            });
-
-            menuContainer.innerHTML = '';
-
-            if (filteredMenus.length === 0) {
-                emptyState.classList.remove('d-none');
-                return;
-            } else {
-                emptyState.classList.add('d-none');
-            }
-
-            filteredMenus.forEach(item => {
-                const col = document.createElement('div');
-                col.className = `${currentGridClass} transition-all`;
-
-                col.innerHTML = `
-                    <div class="card menu-card p-3">
-                        ${isAdminLoggedIn ? `
-                            <div class="admin-actions bg-white shadow-sm rounded-pill p-1 border">
-                                <button class="btn btn-light btn-sm rounded-circle text-primary" onclick="editMenu('${item.id}')" title="Edit Menu">
-                                    <i class="bi bi-pencil-fill"></i>
-                                </button>
-                                <button class="btn btn-light btn-sm rounded-circle text-danger" onclick="deleteMenu('${item.id}')" title="Hapus Menu">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </div>
-                        ` : ''}
-                        
-                        <div class="card-body p-2 d-flex ${currentGridClass.includes('list-view-item') ? 'flex-row align-items-center w-100' : 'flex-column'}">
-                            <div class="icon-wrapper ${item.theme}">
-                                <i class="bi ${item.icon}"></i>
-                            </div>
-
-                            <div class="card-content flex-grow-1">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <span class="badge bg-light text-dark border rounded-pill fw-normal">${item.category}</span>
-                                </div>
-                                <h5 class="card-title fw-bold text-dark mb-2">${item.title}</h5>
-                                <p class="card-text text-muted small mb-3">${item.desc}</p>
-                            </div>
-
-                            <div class="card-actions mt-auto">
-                                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm rounded-pill w-100 fw-semibold">
-                                    Buka Link <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                menuContainer.appendChild(col);
-            });
-        }
-
-        // EVENT LISTENERS
-        function setupEventListeners() {
-            // Live Search & Category Filter
-            searchInput.addEventListener('input', renderMenus);
-            categoryFilter.addEventListener('change', renderMenus);
-
-            // Grid Layout Radio Buttons
-            document.querySelectorAll('input[name="gridView"]').forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    currentGridClass = e.target.value;
-                    renderMenus();
-                });
-            });
-
-            // Login Form Submit
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const user = document.getElementById('username').value;
-                const pass = document.getElementById('password').value;
-                const loginAlert = document.getElementById('loginAlert');
-
-                if (user === 'admin' && pass === 'admin123') {
-                    isAdminLoggedIn = true;
-                    localStorage.setItem('isAdminLoggedIn', 'true');
-                    loginAlert.classList.add('d-none');
-                    loginForm.reset();
-                    loginModal.hide();
-                    updateAuthUI();
-                    showToast('Berhasil login sebagai Admin!', 'bi-check-circle-fill text-success');
-                } else {
-                    loginAlert.classList.remove('d-none');
-                }
-            });
-
-            // Logout Event
-            document.getElementById('btnLogout').addEventListener('click', () => {
-                isAdminLoggedIn = false;
-                localStorage.setItem('isAdminLoggedIn', 'false');
-                updateAuthUI();
-                showToast('Anda telah logout.', 'bi-info-circle-fill text-warning');
-            });
-
-            // Dynamic Icon Preview in Form
-            document.getElementById('menuIcon').addEventListener('input', (e) => {
-                const iconPreview = document.getElementById('iconPreview');
-                iconPreview.className = `bi ${e.target.value || 'bi-app-indicator'}`;
-            });
-
-            // Reset Form on Modal Open for Add
-            document.getElementById('btnOpenAddModal').addEventListener('click', () => {
-                document.getElementById('menuModalLabel').innerText = 'Tambah Menu Baru';
-                document.getElementById('menuId').value = '';
-                menuForm.reset();
-                document.getElementById('iconPreview').className = 'bi bi-link-45deg';
-            });
-
-            // Save Menu Form Submit (CRUD: Create & Update)
-            menuForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const id = document.getElementById('menuId').value;
-                const title = document.getElementById('menuTitle').value;
-                const desc = document.getElementById('menuDesc').value;
-                const url = document.getElementById('menuUrl').value;
-                const icon = document.getElementById('menuIcon').value || 'bi-link-45deg';
-                const category = document.getElementById('menuCategory').value;
-                const theme = document.querySelector('input[name="themeColor"]:checked').value;
-
-                if (id) {
-                    // Update existing
-                    const index = menus.findIndex(m => m.id === id);
-                    if (index !== -1) {
-                        menus[index] = { id, title, desc, url, icon, category, theme };
-                        showToast('Menu berhasil diperbarui!', 'bi-check-circle-fill text-success');
-                    }
-                } else {
-                    // Create new
-                    const newMenu = {
-                        id: Date.now().toString(),
-                        title, desc, url, icon, category, theme
-                    };
-                    menus.unshift(newMenu);
-                    showToast('Menu baru berhasil ditambahkan!', 'bi-check-circle-fill text-success');
-                }
-
-                saveMenuData();
-                renderCategoryOptions();
-                renderMenus();
-                menuModal.hide();
-            });
-
-            // Reset Data to Default
-            document.getElementById('btnResetData').addEventListener('click', () => {
-                if (confirm('Apakah Anda yakin ingin mengembalikan menu ke bawaan default? Semua data kustom akan hilang.')) {
-                    menus = [...defaultMenus];
-                    saveMenuData();
-                    renderCategoryOptions();
-                    renderMenus();
-                    showToast('Menu berhasil direset ke sampel default.', 'bi-arrow-counterclockwise text-info');
-                }
-            });
-        }
-
-        // EDIT MENU (Populate modal)
-        window.editMenu = function(id) {
-            const menu = menus.find(m => m.id === id);
-            if (!menu) return;
-
-            document.getElementById('menuModalLabel').innerText = 'Edit Menu';
-            document.getElementById('menuId').value = menu.id;
-            document.getElementById('menuTitle').value = menu.title;
-            document.getElementById('menuDesc').value = menu.desc;
-            document.getElementById('menuUrl').value = menu.url;
-            document.getElementById('menuIcon').value = menu.icon;
-            document.getElementById('iconPreview').className = `bi ${menu.icon}`;
-            document.getElementById('menuCategory').value = menu.category;
-
-            const themeRadio = document.querySelector(`input[name="themeColor"][value="${menu.theme}"]`);
-            if (themeRadio) themeRadio.checked = true;
-
-            menuModal.show();
-        };
-
-        // DELETE MENU
-        window.deleteMenu = function(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus menu ini?')) {
-                menus = menus.filter(m => m.id !== id);
-                saveMenuData();
-                renderCategoryOptions();
-                renderMenus();
-                showToast('Menu berhasil dihapus!', 'bi-trash-fill text-danger');
-            }
-        };
-
-        // NOTIFICATION TOAST HELPER
-        function showToast(message, iconClass) {
-            document.getElementById('toastMessage').innerText = message;
-            document.getElementById('toastIcon').className = `bi ${iconClass} fs-5`;
-            liveToast.show();
-        }
-    </script>
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "deleteMenu", id: id })
+        });
+        await fetchMenu();
+      } catch (err) {
+        alert("Gagal menghapus menu.");
+      }
+    }
+  </script>
 </body>
 </html>
