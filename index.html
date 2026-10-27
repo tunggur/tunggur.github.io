@@ -37,7 +37,7 @@
       <div class="card-body bg-white rounded-3 d-flex justify-content-between align-items-center">
         <div>
           <h5 class="card-title mb-1 text-primary"><i class="bi bi-shield-lock-fill me-2"></i>Panel Kontrol Admin</h5>
-          <p class="text-muted small mb-0">Kelola menu dinamis yang terhubung ke Google Sheets.</p>
+          <p class="text-muted small mb-0">Kelola menu dinamis dengan Google Sheets.</p>
         </div>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMenuModal">
           <i class="bi bi-plus-lg me-1"></i>Tambah Menu
@@ -68,25 +68,25 @@
   </div>
 
   <!-- Modal Login -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-lock me-2"></i>Login Admin</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title"><i class="bi bi-person-lock me-2"></i>Login Admin</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div id="loginAlert" class="alert alert-danger d-none p-2 small text-center"></div>
           <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="mb-3">
               <label class="form-label">Username</label>
-              <input type="text" id="loginUser" class="form-control" required placeholder="Masukkan username">
+              <input type="text" id="loginUser" class="form-control" required placeholder="admin">
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input type="password" id="loginPass" class="form-control" required placeholder="Masukkan password">
+              <input type="password" id="loginPass" class="form-control" required placeholder="admin123">
             </div>
-            <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Verifikasi ke Spreadsheet</button>
+            <button type="submit" id="btnLoginSubmit" class="btn btn-primary w-100">Login</button>
           </form>
         </div>
       </div>
@@ -99,7 +99,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Tambah Menu Baru</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <form id="addMenuForm" onsubmit="handleAddMenu(event)">
@@ -119,19 +119,63 @@
               <div class="col-md-6 mb-3">
                 <label class="form-label">Ikon (Bootstrap Icon)</label>
                 <input type="text" id="menuIcon" class="form-control" value="bi-link-45deg">
-                <small class="text-muted">Contoh: bi-folder, bi-star, bi-gear</small>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label">Lebar Grid</label>
                 <select id="menuCols" class="form-select">
-                  <option value="3">4 Kolom / Baris (col-md-3)</option>
-                  <option value="4" selected>3 Kolom / Baris (col-md-4)</option>
-                  <option value="6">2 Kolom / Baris (col-md-6)</option>
+                  <option value="3">4 Kolom (col-md-3)</option>
+                  <option value="4" selected>3 Kolom (col-md-4)</option>
+                  <option value="6">2 Kolom (col-md-6)</option>
                   <option value="12">1 Kolom Penuh (col-md-12)</option>
                 </select>
               </div>
             </div>
             <button type="submit" id="btnAddSubmit" class="btn btn-primary w-100">Simpan ke Google Sheets</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Menu -->
+  <div class="modal fade" id="editMenuModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editMenuForm" onsubmit="handleUpdateMenu(event)">
+            <input type="hidden" id="editMenuId">
+            <div class="mb-3">
+              <label class="form-label">Judul Menu</label>
+              <input type="text" id="editMenuTitle" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Deskripsi Singkat</label>
+              <input type="text" id="editMenuDesc" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Link (URL)</label>
+              <input type="url" id="editMenuUrl" class="form-control" required>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Ikon (Bootstrap Icon)</label>
+                <input type="text" id="editMenuIcon" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Lebar Grid</label>
+                <select id="editMenuCols" class="form-select">
+                  <option value="3">4 Kolom (col-md-3)</option>
+                  <option value="4">3 Kolom (col-md-4)</option>
+                  <option value="6">2 Kolom (col-md-6)</option>
+                  <option value="12">1 Kolom Penuh (col-md-12)</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" id="btnEditSubmit" class="btn btn-primary w-100">Perbarui di Google Sheets</button>
           </form>
         </div>
       </div>
@@ -175,14 +219,8 @@
 
     async function fetchMenu() {
       const container = document.getElementById("menuContainer");
-      
       if (!API_URL || API_URL.includes("URL_WEB_APP_APPS_SCRIPT_ANDA_DI_SINI")) {
-        container.innerHTML = `
-          <div class="alert alert-warning text-center">
-            <i class="bi bi-exclamation-triangle-fill fs-3 d-block mb-2"></i>
-            <strong>API_URL Belum Diatur!</strong><br>
-            Silakan masukkan Web App URL dari Google Apps Script ke variabel <code>API_URL</code> di file HTML ini.
-          </div>`;
+        container.innerHTML = `<div class="alert alert-warning text-center">Harap atur variabel API_URL terlebih dahulu.</div>`;
         return;
       }
 
@@ -191,12 +229,7 @@
         menuList = await response.json();
         renderMenu();
       } catch (err) {
-        container.innerHTML = `
-          <div class="alert alert-danger text-center">
-            <i class="bi bi-x-circle-fill fs-3 d-block mb-2"></i>
-            <strong>Gagal Terhubung ke Google Sheets</strong><br>
-            Periksa kembali URL Apps Script dan pastikan hak akses deployment diset ke "Anyone".
-          </div>`;
+        container.innerHTML = `<div class="alert alert-danger text-center">Gagal memuat data dari Spreadsheet.</div>`;
       }
     }
 
@@ -210,7 +243,7 @@
       );
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center my-5 text-muted"><i class="bi bi-inbox fs-1 d-block mb-2"></i><p>Tidak ada data menu di Spreadsheet.</p></div>`;
+        container.innerHTML = `<div class="text-center my-5 text-muted"><i class="bi bi-inbox fs-1 d-block mb-2"></i><p>Tidak ada data menu.</p></div>`;
         return;
       }
 
@@ -221,7 +254,12 @@
               <div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <span class="icon-box text-primary"><i class="bi ${item.icon || 'bi-link-45deg'}"></i></span>
-                  ${isAdmin ? `<button class="btn btn-outline-danger btn-sm border-0" title="Hapus Menu" onclick="deleteMenu('${item.id}')"><i class="bi bi-trash"></i></button>` : ''}
+                  ${isAdmin ? `
+                    <div class="btn-group">
+                      <button class="btn btn-outline-secondary btn-sm border-0" title="Edit Menu" onclick='openEditModal(${JSON.stringify(item)})'><i class="bi bi-pencil-square"></i></button>
+                      <button class="btn btn-outline-danger btn-sm border-0" title="Hapus Menu" onclick="deleteMenu('${item.id}')"><i class="bi bi-trash"></i></button>
+                    </div>
+                  ` : ''}
                 </div>
                 <h5 class="card-title fw-bold text-dark">${item.title}</h5>
                 <p class="card-text text-muted small">${item.description}</p>
@@ -243,44 +281,32 @@
       const alertBox = document.getElementById("loginAlert");
 
       alertBox.classList.add("d-none");
-
-      if (!API_URL || API_URL.includes("URL_WEB_APP_APPS_SCRIPT_ANDA_DI_SINI")) {
-        alertBox.innerText = "Isi variabel API_URL terlebih dahulu!";
-        alertBox.classList.remove("d-none");
-        return;
-      }
-
       btn.disabled = true;
-      btn.innerText = "Memeriksa Spreadsheet...";
+      btn.innerText = "Memeriksa...";
 
       try {
         const response = await fetch(API_URL, {
           method: "POST",
           body: JSON.stringify({ action: "login", username: user, password: pass })
         });
-        
         const res = await response.json();
 
         if (res.success) {
           sessionStorage.setItem("isAdmin", "true");
           checkLoginSession();
-          
-          const loginModalEl = document.getElementById("loginModal");
-          const modalInstance = bootstrap.Modal.getInstance(loginModalEl);
-          if (modalInstance) modalInstance.hide();
-
+          bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
           document.getElementById("loginForm").reset();
           renderMenu();
         } else {
-          alertBox.innerText = res.message || "Username atau password salah!";
+          alertBox.innerText = res.message;
           alertBox.classList.remove("d-none");
         }
       } catch (err) {
-        alertBox.innerText = "Gagal terhubung ke Google Apps Script.";
+        alertBox.innerText = "Gagal terhubung ke server.";
         alertBox.classList.remove("d-none");
       } finally {
         btn.disabled = false;
-        btn.innerText = "Verifikasi ke Spreadsheet";
+        btn.innerText = "Login";
       }
     }
 
@@ -294,7 +320,7 @@
       e.preventDefault();
       const btn = document.getElementById("btnAddSubmit");
       btn.disabled = true;
-      btn.innerText = "Menyimpan ke Sheet...";
+      btn.innerText = "Menyimpan...";
 
       const newMenu = {
         action: "addMenu",
@@ -306,34 +332,65 @@
       };
 
       try {
-        await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify(newMenu)
-        });
-
+        await fetch(API_URL, { method: "POST", body: JSON.stringify(newMenu) });
         document.getElementById("addMenuForm").reset();
-        
-        const addModalEl = document.getElementById("addMenuModal");
-        const modalInstance = bootstrap.Modal.getInstance(addModalEl);
-        if (modalInstance) modalInstance.hide();
-
+        bootstrap.Modal.getInstance(document.getElementById("addMenuModal")).hide();
         await fetchMenu();
       } catch (err) {
-        alert("Gagal menyimpan menu ke Spreadsheet.");
+        alert("Gagal menambah menu.");
       } finally {
         btn.disabled = false;
         btn.innerText = "Simpan ke Google Sheets";
       }
     }
 
-    async function deleteMenu(id) {
-      if (!confirm("Apakah Anda yakin ingin menghapus menu ini dari Google Sheets?")) return;
+    // Fungsi untuk membuka modal edit dan mengisi datanya otomatis
+    function openEditModal(item) {
+      document.getElementById("editMenuId").value = item.id;
+      document.getElementById("editMenuTitle").value = item.title;
+      document.getElementById("editMenuDesc").value = item.description;
+      document.getElementById("editMenuUrl").value = item.url;
+      document.getElementById("editMenuIcon").value = item.icon;
+      document.getElementById("editMenuCols").value = item.cols || 4;
+
+      const editModal = new bootstrap.Modal(document.getElementById("editMenuModal"));
+      editModal.show();
+    }
+
+    // Fungsi untuk mengirim data edit ke Google Sheets
+    async function handleUpdateMenu(e) {
+      e.preventDefault();
+      const btn = document.getElementById("btnEditSubmit");
+      btn.disabled = true;
+      btn.innerText = "Memperbarui...";
+
+      const updatedMenu = {
+        action: "updateMenu",
+        id: document.getElementById("editMenuId").value,
+        title: document.getElementById("editMenuTitle").value,
+        description: document.getElementById("editMenuDesc").value,
+        url: document.getElementById("editMenuUrl").value,
+        icon: document.getElementById("editMenuIcon").value,
+        cols: document.getElementById("editMenuCols").value
+      };
 
       try {
-        await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify({ action: "deleteMenu", id: id })
-        });
+        await fetch(API_URL, { method: "POST", body: JSON.stringify(updatedMenu) });
+        bootstrap.Modal.getInstance(document.getElementById("editMenuModal")).hide();
+        await fetchMenu();
+      } catch (err) {
+        alert("Gagal memperbarui menu.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Perbarui di Google Sheets";
+      }
+    }
+
+    async function deleteMenu(id) {
+      if (!confirm("Hapus menu ini dari Google Sheets?")) return;
+
+      try {
+        await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "deleteMenu", id: id }) });
         await fetchMenu();
       } catch (err) {
         alert("Gagal menghapus menu.");
